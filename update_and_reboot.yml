@@ -1,0 +1,12 @@
+---
+- name: Update and reboot
+  hosts: swarm 
+  tasks:
+  - name: Update all packages with apt
+    ansible.builtin.apt:
+      name: "*"
+      state: latest
+    become: yes
+  - name: reboot all systems
+    ansible.builtin.reboot:
+    become: yes
