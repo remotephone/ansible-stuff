@@ -1,6 +1,6 @@
 ---
 - name: Update and reboot
-  hosts: swarm 
+  hosts: all
   tasks:
   - name: Update all packages with apt
     ansible.builtin.apt:
