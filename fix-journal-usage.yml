@@ -1,0 +1,17 @@
+---
+- name: Be Easier on the disk
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: Fix journal file usage
+    ansible.builtin.lineinfile:
+      path: /etc/systemd/journald.conf
+      state: present
+      regexp: '^#SystemMaxUse='
+      line: SystemMaxUse=50M
+
+  - name: Restart journal service
+    ansible.builtin.systemd:
+      name: systemd-journald.service
+      state: restarted
