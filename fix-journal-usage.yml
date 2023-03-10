@@ -16,7 +16,7 @@
       name: systemd-journald.service
       state: restarted
 
-  - name: set docker daemon file 
+  - name: set docker daemon file
     ansible.builtin.copy:
       src: files/daemon.json
       dest: /etc/docker/daemon.json
