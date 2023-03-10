@@ -15,3 +15,16 @@
     ansible.builtin.systemd:
       name: systemd-journald.service
       state: restarted
+
+  - name: set docker daemon file 
+    ansible.builtin.copy:
+      src: files/daemon.json
+      dest: /etc/docker/daemon.json
+      owner: root
+      group: root
+      mode: '0644'
+
+  - name: Reload service docker, in all cases
+    ansible.builtin.systemd:
+      name: docker.service
+      state: reloaded
