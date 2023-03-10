@@ -1,7 +1,7 @@
 ---
 - name: Be Easier on the disk
   hosts: all
-  become: yes
+  become: true
 
   tasks:
   - name: Fix journal file usage

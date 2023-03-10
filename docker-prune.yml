@@ -1,7 +1,7 @@
 ---
 - name: Be Easier on the disk
   hosts: all
-  become: yes
+  become: true
 
   tasks:
   - name: Install docker python package
@@ -10,8 +10,8 @@
 
   - name: Prune everything
     docker_prune:
-      containers: yes
-      images: yes
-      networks: no
-      volumes: yes
-      builder_cache: yes
+      containers: true
+      images: true
+      networks: false
+      volumes: true
+      builder_cache: true

@@ -6,8 +6,8 @@
     ansible.builtin.apt:
       name: "*"
       state: latest
-      update_cache: yes
-    become: yes
+      update_cache: true
+    become: true
   - name: reboot all systems
     ansible.builtin.reboot:
-    become: yes
+    become: true
