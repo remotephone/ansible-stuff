@@ -1,0 +1,31 @@
+---
+- name: Configure syslog on Ubuntu
+  hosts: all
+  become: yes  # You may need to become root (sudo) to perform these tasks
+
+  tasks:
+    - name: Ensure rsyslog is installed
+      apt:
+        name: rsyslog
+        state: present
+      become: yes
+
+    - name: Enable rsyslog service
+      systemd:
+        name: rsyslog
+        enabled: yes
+      become: yes
+
+    - name: Configure rsyslog to send messages to a remote address and monitor /opt/deploy_bot/deploy_bot.log
+      template:
+        src: syslog.conf.j2
+        dest: /etc/rsyslog.d/10-remote.conf
+      become: yes
+      notify:
+        - restart rsyslog
+
+  handlers:
+    - name: restart rsyslog
+      service:
+        name: rsyslog
+        state: restarted
