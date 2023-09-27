@@ -16,6 +16,14 @@
         enabled: yes
       become: yes
 
+    - name: Send default file
+      ansible.builtin.copy:
+        src: rsyslog.conf
+        dest: /etc/rsyslog.conf
+      become: yes
+      notify:
+        - restart rsyslog
+
     - name: Configure rsyslog to send messages to a remote address and monitor /opt/deploy_bot/deploy_bot.log
       template:
         src: syslog.conf.j2

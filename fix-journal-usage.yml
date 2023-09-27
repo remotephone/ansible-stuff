@@ -17,8 +17,8 @@
       state: restarted
 
   - name: set docker daemon file
-    ansible.builtin.copy:
-      src: files/daemon.json
+    ansible.builtin.template:
+      src: daemon.json.j2
       dest: /etc/docker/daemon.json
       owner: root
       group: root

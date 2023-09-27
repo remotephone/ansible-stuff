@@ -1,0 +1,7 @@
+---
+- name: Update and reboot
+  hosts: all
+  tasks:
+  - name: Update all packages with apt
+    ansible.builtin.shell: do-release-upgrade -f DistUpgradeViewNonInteractive
+    become: true

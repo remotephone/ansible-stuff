@@ -1,2 +1,30 @@
-# Forward all syslog messages to a remote syslog server
-*.* @{{ syslog_server_address }}
+# Load the mmjsonparse module for parsing CEE-enhanced syslog messages
+module(load="mmjsonparse")
+module(load="imfile")
+
+# Try to parse a structured log
+action(type="mmjsonparse")
+
+# This is for index names to be like: rsyslog-YYYY.MM.DD
+template(name="rsyslog-index" type="string" string="rsyslog-%$YEAR%.%$MONTH%.%$DAY%")
+
+# syslog-%$YEAR%.%$MONTH%.%$DAY%
+# This is for formatting our syslog in JSON with @timestamp
+template(name="json-syslog" type="list") {
+    constant(value="{")
+    constant(value="\"@timestamp\":\"")     property(name="timereported" dateFormat="rfc3339")
+    constant(value="\",\"identifier\":\"syslog_json_formatted")  # Static field
+    constant(value="\",\"host\":\"")        property(name="hostname")
+    constant(value="\",\"severity\":\"")    property(name="syslogseverity-text")
+    constant(value="\",\"facility\":\"")    property(name="syslogfacility-text")
+    constant(value="\",\"program\":\"")     property(name="programname")
+    constant(value="\",\"tag\":\"")         property(name="syslogtag" format="json")
+    constant(value="\",")                   property(name="$!all-json" position.from="2")
+    constant(value="}")                     # closing brace for JSON object
+}
+
+# Send logs to a local JSON file using the json-syslog template
+*.* action(type="omfile" file="/var/log/all_logs.json" template="json-syslog")
+
+# Send logs to a remote syslog server via UDP using the json-syslog template
+*.* action(type="omfwd" target="{{ syslog_server_address }}" port="514" protocol="udp" template="json-syslog")

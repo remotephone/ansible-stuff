@@ -1,0 +1,8 @@
+{
+    "experimental" : true,
+    "log-driver": "gelf",
+    "log-opts": {
+        "labels": "swarm",
+        "gelf-address": "udp://{{ syslog_server_address }}:12201"
+    }
+}
