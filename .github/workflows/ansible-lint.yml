@@ -1,6 +1,6 @@
 name: Ansible Lint  # feel free to pick your own name
 
-on: [push, pull_request]
+on: [workflow_dispatch]
 
 jobs:
   build:
@@ -8,4 +8,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Lint Ansible Playbook
-      uses: ansible/ansible-lint-action@main
+      uses: ansible/ansible-lint@main
