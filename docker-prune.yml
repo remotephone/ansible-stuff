@@ -9,7 +9,7 @@
       name: docker
 
   - name: Prune everything
-    community.docker.docker_prune:
+    docker_prune:
       containers: true
       images: true
       networks: false
